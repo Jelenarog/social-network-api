@@ -1,6 +1,6 @@
 // Define Mongoose
 const mongoose = require('mongoose');
-
+const { Schema, Types } = require('mongoose');
 // Create a new instance of the Mongoose schema to define shape of each document
 const userSchema = new mongoose.Schema({
 
@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
        
     },
       },
-    price: Number,
     thoughts: [{ 
       type: Schema.Types.ObjectId, 
       ref: 'thought' 
@@ -44,7 +43,6 @@ const userSchema = new mongoose.Schema({
     return this.friends.length;
   });
 
-// grocerySchema is the name of the schema we are using to create a new instance of the model
 const User = mongoose.model('user', userSchema);
 
 

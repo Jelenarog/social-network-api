@@ -2,6 +2,7 @@
    // Define Mongoose
 const mongoose = require('mongoose');
 
+const Reaction = require('./Reaction');
 // Create a new instance of the Mongoose schema to define shape of each document
 const thoughtSchema = new mongoose.Schema({
 
@@ -19,7 +20,7 @@ const thoughtSchema = new mongoose.Schema({
         type: String,
          required: true,
          },
-    reactions: ,
+    reactions:[Reaction] ,
 
   },
   {
@@ -29,7 +30,7 @@ const thoughtSchema = new mongoose.Schema({
     id: false,
   });
 
-  thoughtSchema.virtual('friendCount').get(function () {
+  thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
   });
 
