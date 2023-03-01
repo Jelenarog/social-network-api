@@ -22,17 +22,16 @@ module.exports = {
  updateUser(req, res) {
   User.findOneAndUpdate(
     {_id: req.params.userId},
-    { $set: req.body },
-    
+    { $set: req.body }, 
     )
-    .then((oneUser) => res.json(oneUser))
+    .then((allUsers) => res.json(allUsers))
     .catch((err) => res.status(500).json(err));
 },
 
  //delete user
  deleteUser(req, res) {
   User.findOneAndDelete({_id: req.params.userId})
-    .then((oneUser) => res.json(oneUser))
+    .then(() => res.json('User has been deleted'))
     .catch((err) => res.status(500).json(err));
 },
 
@@ -40,7 +39,7 @@ module.exports = {
  // create a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => res.json(dbUserData))
+      .then((newUser) => res.json(newUser))
       .catch((err) => res.status(500).json(err));
  },
 
@@ -52,7 +51,7 @@ module.exports = {
         { $pull: {friends: req.params.friendId} },
         )
 
-      .then((dbUserData) => res.json(dbUserData))
+      .then((dbUser) => res.json(dbUser))
       .catch((err) => res.status(500).json(err));
  },
 
@@ -64,8 +63,10 @@ module.exports = {
         {_id: req.params.userId},
         { $addToSet: {friends: req.params.friendId} },
         )
+        .populate('thoughts')
+        .populate('friends')
 
-      .then((dbUserData) => res.json(dbUserData))
+      .then((newFriend) => res.json(newFriend))
       .catch((err) => res.status(500).json(err));
  },
 

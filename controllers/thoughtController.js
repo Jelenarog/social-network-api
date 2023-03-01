@@ -5,7 +5,7 @@ module.exports = {
   //get all thoughts
   getThought(req, res) {
     Thought.find()
-      .then((thoughts) => res.json(thoughts))
+      .then((allThoughts) => res.json(allThoughts))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -14,7 +14,7 @@ module.exports = {
       Thought.findById(
         {_id:req.params.thoughtId}
       )
-        .then((thoughts) => res.json(thoughts))
+        .then((oneThought) => res.json(oneThought))
         .catch((err) => res.status(500).json(err));
     },
 
@@ -28,8 +28,8 @@ module.exports = {
           { new: true }
         );
       })
-      .then((newThought) =>
-       res.json("new thought has been created")
+      .then(() =>
+       res.json("New thought has been created")
       )
       .catch((err) => {
         console.log(err);
@@ -66,9 +66,8 @@ deleteThought(req, res) {
     {_id: req.params.thoughtId},
    )
     .then((thought) => {
-      return User.findOneAndDelete(
-        { username: req.body.username },
-        { $pull: { thoughts: thought._id } },
+      return User.deleteMany(
+        { _id: {  $in: User.thoughts} },
         { new: true }
       );
     })
@@ -80,6 +79,31 @@ deleteThought(req, res) {
       res.status(500).json(err);
     });
 },
+
+// create a reaction from thought
+createReaction(req, res) {
+  Thought.findOneAndUpdate(
+      {_id: req.params.thoughtId},
+      { $addToSet: {reactions: req.body} },
+      )
+
+    .then((dbThought) => res.json(dbThought))
+    .catch((err) => res.status(500).json(err));
+},
+
+
+ //delete a reaction from thought
+ deleteReaction(req, res) {
+  Thought.findOneAndUpdate(
+      {_id: req.params.thoughtId},
+      { $pull: {reactions: { reactionId: req.body.reactionId}} },
+      { new: true },
+      )
+
+    .then(() => res.json('Thought has been deleted.'))
+    .catch((err) => res.status(500).json(err));
+},
+
 
 }
 

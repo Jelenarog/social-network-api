@@ -12,9 +12,10 @@ const thoughtSchema = new mongoose.Schema({
         minLength: 1,
         maxLength: 280,
      },
-    createtAd: { 
+    createdAd: { 
         type: Date,
          default: Date.now,
+       
          },
     username: { 
         type: String,
