@@ -14,7 +14,7 @@ ___
 Social-network-api is a social media startup that uses noSql database. Application allows us to crate new user, become friends with existing user, post thoughts and reactions on the same.
 
 ## *Usage*
-![User-story](./public/Images/User-story.png)
+![User-story](./public/images/User-story.png)
 
 Create/get all users:
 - Route `/api/users`
